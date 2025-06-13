@@ -1,21 +1,11 @@
 CREATE TABLE IF NOT EXISTS category (
-      categoryID INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-      categoryType ENUM(
-        'Personal',
-        'Work',
-        'Learning',
-        'Home',
-        'Shopping',
-        'Ideas',
-        'Planning',
-        'Waiting',
-        'Recurring'
-    ) NOT NULL
+      categoryID Long NOT NULL PRIMARY KEY,
+      categoryType VARCHAR(255) UNIQUE NOT NULL
 );
 
 
 CREATE TABLE IF NOT EXISTS task (
-      id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+      id INT NOT NULL PRIMARY KEY,
       taskName VARCHAR(255) NOT NULL,
       dueDate DATE NOT NULL,
       isCompleted boolean NOT NULL,

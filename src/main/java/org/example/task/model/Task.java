@@ -1,10 +1,12 @@
 package org.example.task.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 
@@ -13,9 +15,8 @@ import java.util.Set;
 @Entity
 public class Task {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
-    private Integer id;
+    private Long id;
 
     @Column(nullable = false, length = 50, name="taskName")
     private String taskName;
@@ -36,6 +37,6 @@ public class Task {
             inverseJoinColumns = @JoinColumn(name = "categoryID")
     )
 
-
-    private Set<Category> categories;
+    @JsonManagedReference
+    private Set<Category> categories =  new HashSet<>();;
 }
