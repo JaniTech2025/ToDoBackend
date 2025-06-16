@@ -23,10 +23,8 @@ INSERT INTO task(id, taskName, dueDate, isCompleted, isArchived) VALUES
 
 DELETE FROM task_category;
 
-INSERT INTO task_category (taskID, categoryID) VALUES
-                   (1, 10),
-                   (1, 11),
-                   (2, 10),
-                   (3, 11);
 
-
+INSERT INTO task_category(taskID, categoryID) VALUES
+                  (1, 10),
+                  (1, 11),
+                  (2, 12);

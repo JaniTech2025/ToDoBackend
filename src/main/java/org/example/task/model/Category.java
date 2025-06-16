@@ -1,6 +1,7 @@
 package org.example.task.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,13 +15,15 @@ import java.util.Set;
 @Entity
 public class Category {
     @Id
-    @Column(unique = true, nullable = false, name="categoryID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false, name="categoryID")
     private Long categoryID;
 
     @Column(nullable = false, name = "categoryType", unique = true,length = 50)
-    private String categorytype;
+    private String categoryType;
 
-    @ManyToMany(mappedBy = "categories")
-    @JsonBackReference
-    private Set<Task> tasks =  new HashSet<>();;
+    @ManyToMany(mappedBy = "categories", fetch = FetchType.EAGER)
+    @JsonBackReference(value = "task-category")
+    private Set<Task> tasks =  new HashSet<>();
+
 }

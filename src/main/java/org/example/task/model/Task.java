@@ -1,5 +1,6 @@
 package org.example.task.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -15,6 +16,7 @@ import java.util.Set;
 @Entity
 public class Task {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
     private Long id;
 
@@ -30,13 +32,32 @@ public class Task {
     @Column(nullable = false, name="isArchived")
     private boolean isArchived;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "task_category",
             joinColumns = @JoinColumn(name = "taskID"),
             inverseJoinColumns = @JoinColumn(name = "categoryID")
     )
 
-    @JsonManagedReference
-    private Set<Category> categories =  new HashSet<>();;
+    @JsonIgnore
+    private Set<Category> categories =  new HashSet<>();
+
+
+    public void addCategory(Category category) {
+        categories.add(category);
+        category.getTasks().add(this);
+    }
+
+    public String[] getCategoryTypes() {
+        return categories.stream()
+                .map(Category::getCategoryType)
+                .toArray(String[]::new);
+    }
+
+
+    public void removeCategory(Category category) {
+        categories.remove(category);
+        category.getTasks().remove(this);
+    }
+
 }
