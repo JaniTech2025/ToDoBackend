@@ -5,7 +5,6 @@ import org.example.task.model.Category;
 import org.example.task.model.Task;
 import org.example.task.service.CategoryService;
 import org.springframework.stereotype.Service;
-import org.example.task.service.TaskService;
 
 import java.util.Set;
 import java.util.stream.Collectors;

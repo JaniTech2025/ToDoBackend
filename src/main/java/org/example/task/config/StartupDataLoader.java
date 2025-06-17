@@ -27,7 +27,7 @@ public class StartupDataLoader {
 
         if (categories.size() >= 2 && tasks.size() >= 2) {
             Task task1 = tasks.get(0);
-            task1.addCategory(categories.get(0));  // use helper method that adds to both sides
+            task1.addCategory(categories.get(0)); // use helper method that adds to both sides
             task1.addCategory(categories.get(1));
 
             Task task2 = tasks.get(1);

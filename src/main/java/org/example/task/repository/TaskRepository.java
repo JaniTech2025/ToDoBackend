@@ -16,4 +16,6 @@ public interface TaskRepository extends JpaRepository<Task, Integer> {
     @Query("SELECT t FROM Task t JOIN t.categories c WHERE c.categoryType in :categoryType")
     List<Task> findByCategoryTypeIn(@Param("categoryType") List<String> category);
 
+   @Query("SELECT t from Task t")
+   Task findById(Long id);
 }

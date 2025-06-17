@@ -1,12 +1,11 @@
 package org.example.task.service;
 
-
 import org.example.task.model.Category;
+import org.example.task.model.Task;
 import org.example.task.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-
 
 @Service
 public class CategoryService {
@@ -16,7 +15,7 @@ public class CategoryService {
         this.categoryRepository = categoryRepository;
     }
 
-public Category updateCategory(Long id, Category newCategory) {
+    public Category updateCategory(Long id, Category newCategory) {
         Category existingCategory = categoryRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Category not found"));
 
@@ -25,10 +24,20 @@ public Category updateCategory(Long id, Category newCategory) {
         return categoryRepository.save(existingCategory);
     }
 
-
     public Optional<Category> findByCategoryType(String categoryType) {
         return categoryRepository.findByCategoryType(categoryType);
     }
 
+    public Category deleteCategory(Long id) {
+        Category existingCategory = categoryRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Category not found"));
+
+        for (Task task : existingCategory.getTasks()) {
+            task.getCategories().remove(existingCategory);
+        }
+
+        categoryRepository.delete(existingCategory);
+        return existingCategory;
+    }
 
 }

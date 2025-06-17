@@ -9,6 +9,7 @@ import org.example.task.validation.ResourceNotFoundException;
 
 import org.springframework.stereotype.Service;
 
+import jakarta.transaction.Transactional;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -54,7 +55,16 @@ public class TaskService {
 
         return taskRepository.save(existingTask);
     }
+
+    @Transactional
+    public Task deleteTask(Long id) {
+        Task existingTask = taskRepository.findByIdWithCategories(id)
+                .orElseThrow(() -> new RuntimeException("Task id" + id + "not found"));
+
+        existingTask.setArchived(true);
+
+        taskRepository.save(existingTask);
+
+        return existingTask;
     }
-
-
-
+}

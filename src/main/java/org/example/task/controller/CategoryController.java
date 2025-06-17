@@ -25,20 +25,25 @@ public class CategoryController {
         return categoryRepository.findAll();
     }
 
-
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public Category addCategory(@RequestBody Category category) {
         return categoryRepository.save(category);
     }
 
-    @PutMapping(path = "/{id}",consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Category> updateCategory(
             @PathVariable Long id,
-            @RequestBody Category category
-    ) {
+            @RequestBody Category category) {
         Category updatedCategory = categoryService.updateCategory(id, category);
         return ResponseEntity.ok(updatedCategory);
     }
 
+    @DeleteMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Category> deleteCategory(
+            @PathVariable Long id,
+            @RequestBody Category category) {
+        Category deletedCategory = categoryService.deleteCategory(id);
+        return ResponseEntity.ok(deletedCategory);
+    }
 
 }

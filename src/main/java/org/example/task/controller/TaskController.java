@@ -12,6 +12,9 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -26,8 +29,8 @@ public class TaskController {
     private final TaskService taskService;
     private final CategoryRepository categoryRepository;
 
-
-    public TaskController(TaskRepository taskRepository, TaskService taskService, CategoryRepository categoryRepository) {
+    public TaskController(TaskRepository taskRepository, TaskService taskService,
+            CategoryRepository categoryRepository) {
         this.taskService = taskService;
         this.taskRepository = taskRepository;
         this.categoryRepository = categoryRepository;
@@ -42,14 +45,16 @@ public class TaskController {
         }
     }
 
-
     @PostMapping
     public ResponseEntity<Task> createTask(@RequestBody Map<String, Object> payload) {
         String taskName = (String) payload.get("taskName");
         String dueDateStr = (String) payload.get("dueDate");
         Boolean isCompleted = (Boolean) payload.get("isCompleted");
         Boolean isArchived = (Boolean) payload.get("isArchived");
-        List<String> categoryTypes = (List<String>) payload.get("categoryTypes");
+        ObjectMapper mapper = new ObjectMapper();
+        List<String> categoryTypes = mapper.convertValue(payload.get("categoryTypes"),
+                new TypeReference<List<String>>() {
+                });
 
         LocalDate dueDate = LocalDate.parse(dueDateStr);
 
@@ -79,11 +84,15 @@ public class TaskController {
     @PutMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Task> updateTask(
             @PathVariable Long id,
-            @RequestBody TaskDTO taskDTO
-    ) {
+            @RequestBody TaskDTO taskDTO) {
         Task updatedTask = taskService.updateTaskFromDTO(id, taskDTO);
         return ResponseEntity.ok(updatedTask);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Task> deleteTask(@PathVariable Long id) {
+        Task deleteTask = taskService.deleteTask(id);
+        return ResponseEntity.ok(deleteTask);
+    }
 
 }
