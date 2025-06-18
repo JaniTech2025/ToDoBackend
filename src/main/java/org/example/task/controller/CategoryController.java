@@ -25,7 +25,9 @@ public class CategoryController {
         return categoryRepository.findAll();
     }
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    // @PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE })
+    // @PostMapping
+    @PostMapping(consumes = { "application/json" })
     public Category addCategory(@RequestBody Category category) {
         return categoryRepository.save(category);
     }

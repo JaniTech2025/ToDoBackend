@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+// import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Setter
 @Getter
@@ -36,7 +36,7 @@ public class Task {
     @JoinTable(name = "task_category", joinColumns = @JoinColumn(name = "taskID"), inverseJoinColumns = @JoinColumn(name = "categoryID"))
 
     // @JsonIgnore
-    @JsonManagedReference
+    // @JsonManagedReference(value = "task-category")
     private Set<Category> categories = new HashSet<>();
 
     public void addCategory(Category category) {

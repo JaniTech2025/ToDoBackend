@@ -19,6 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -75,8 +76,8 @@ public class TaskController {
         Task task = new Task();
         task.setTaskName(taskName);
         task.setDueDate(dueDate);
-        task.setCompleted(isCompleted != null ? isCompleted : false);
-        task.setArchived(isArchived != null ? isArchived : false);
+        task.setCompleted(Optional.ofNullable(isCompleted).orElse(false));
+        task.setArchived(Optional.ofNullable(isArchived).orElse(false));
         task.setCategories(categories);
 
         Task savedTask = taskService.saveTask(task);
