@@ -8,10 +8,11 @@ import lombok.Setter;
 import java.util.HashSet;
 import java.util.Set;
 
-@Setter
 @Getter
+@Setter
 @Entity
 public class Category {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false, name = "categoryID")
@@ -23,5 +24,4 @@ public class Category {
     @ManyToMany(mappedBy = "categories", fetch = FetchType.EAGER)
     @JsonBackReference(value = "task-category")
     private Set<Task> tasks = new HashSet<>();
-
 }

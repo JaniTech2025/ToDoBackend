@@ -2,6 +2,7 @@ package org.example.task.controller;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.example.task.DTO.TaskDTO;
+import org.example.task.DTO.responses.TaskResponse;
 import org.example.task.model.Category;
 import org.example.task.model.Task;
 import org.example.task.repository.CategoryRepository;
@@ -36,13 +37,21 @@ public class TaskController {
         this.categoryRepository = categoryRepository;
     }
 
+    // @GetMapping
+    //
+    // public List<Task> getTasksByCategory(@RequestParam(required = false)
+    // List<String>
+    // category) {
+    // category != null && !category.isEmpty()) {
+    // return taskRepository.findByCategoryTypeIn(category);
+    // se {
+    // return taskRepository.findAll();
+    //
+
     @GetMapping
-    public List<Task> getTasksByCategory(@RequestParam(required = false) List<String> category) {
-        if (category != null && !category.isEmpty()) {
-            return taskRepository.findByCategoryTypeIn(category);
-        } else {
-            return taskRepository.findAll();
-        }
+    public TaskResponse getTasks() {
+        List<Task> tasks = taskRepository.findAllTasksWithCategories();
+        return new TaskResponse(tasks);
     }
 
     @PostMapping

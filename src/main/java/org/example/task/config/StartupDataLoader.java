@@ -7,6 +7,8 @@ import org.example.task.repository.CategoryRepository;
 import org.example.task.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 @Service
@@ -27,13 +29,15 @@ public class StartupDataLoader {
 
         if (categories.size() >= 2 && tasks.size() >= 2) {
             Task task1 = tasks.get(0);
-            task1.addCategory(categories.get(0)); // use helper method that adds to both sides
-            task1.addCategory(categories.get(1));
+            Category category1 = categories.get(0);
+            Category category2 = categories.get(1);
+
+            task1.setCategories(new HashSet<>(Arrays.asList(category1, category2)));
 
             Task task2 = tasks.get(1);
-            task2.addCategory(categories.get(1));
+            // task2.addCategory(categories.get(1));
+            task2.setCategories(new HashSet<>(Arrays.asList(category1)));
 
-            // Save tasks to persist join table entries
             taskRepository.save(task1);
             taskRepository.save(task2);
         }

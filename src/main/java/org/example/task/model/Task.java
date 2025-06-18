@@ -1,6 +1,6 @@
 package org.example.task.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+// import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,6 +8,8 @@ import lombok.Setter;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Setter
 @Getter
@@ -33,7 +35,8 @@ public class Task {
     @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinTable(name = "task_category", joinColumns = @JoinColumn(name = "taskID"), inverseJoinColumns = @JoinColumn(name = "categoryID"))
 
-    @JsonIgnore
+    // @JsonIgnore
+    @JsonManagedReference
     private Set<Category> categories = new HashSet<>();
 
     public void addCategory(Category category) {
