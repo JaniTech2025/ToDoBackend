@@ -6,6 +6,8 @@ import lombok.Setter;
 import java.time.LocalDate;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import jakarta.validation.constraints.NotNull;
 
 @Getter
@@ -19,11 +21,13 @@ public class TaskDTO {
     @NotNull(message = "Due date is required")
     private LocalDate dueDate;
 
+    @JsonProperty("isCompleted")
     @NotNull(message = "isCompleted is required")
     private Boolean isCompleted;
 
+    @JsonProperty("isArchived")
     @NotNull(message = "isArchived is required")
-    public Boolean isArchived;
+    private Boolean isArchived;
 
     private Set<String> categoryTypes;
 }
