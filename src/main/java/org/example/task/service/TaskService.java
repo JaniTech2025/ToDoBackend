@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -42,6 +43,7 @@ public class TaskService {
         existingTask.setDueDate(dto.getDueDate());
         existingTask.setCompleted(dto.getIsCompleted());
         existingTask.setArchived(dto.getIsArchived());
+        System.out.println("****Received categories: " + dto.getCategoryTypes());
 
         if (dto.getCategoryTypes() != null) {
             Set<Category> categories = dto.getCategoryTypes().stream()
@@ -50,7 +52,8 @@ public class TaskService {
                     .collect(Collectors.toSet());
             existingTask.setCategories(categories);
         } else {
-            existingTask.getCategories().clear();
+            // existingTask.getCategories().clear();
+            existingTask.setCategories(new HashSet<>());
         }
 
         return taskRepository.save(existingTask);

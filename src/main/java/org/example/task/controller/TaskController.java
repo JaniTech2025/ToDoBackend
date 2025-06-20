@@ -11,6 +11,8 @@ import org.example.task.service.TaskService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+// import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -92,10 +94,17 @@ public class TaskController {
     }
 
     @PutMapping(path = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Task> updateTask(
+    public ResponseEntity<?> updateTask(
             @PathVariable Long id,
-            @RequestBody TaskDTO taskDTO) {
+            @RequestBody TaskDTO taskDTO,
+            BindingResult result) {
+
+        if (result.hasErrors()) {
+            return ResponseEntity.badRequest().body(result.getAllErrors());
+        }
+
         Task updatedTask = taskService.updateTaskFromDTO(id, taskDTO);
+
         return ResponseEntity.ok(updatedTask);
     }
 
