@@ -30,4 +30,5 @@ public class TaskDTO {
     private Boolean isArchived;
 
     private Set<String> categoryTypes;
+
 }

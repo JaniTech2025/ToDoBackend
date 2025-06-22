@@ -19,6 +19,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -70,7 +71,14 @@ public class TaskController {
 
         LocalDate dueDate = LocalDate.parse(dueDateStr);
 
-        Set<Category> categories = categoryTypes.stream()
+        // Set<Category> categories = categoryTypes.stream()
+        // .map(ct -> categoryRepository.findByCategoryType(ct)
+        // .orElseThrow(() -> new EntityNotFoundException("Category not found: " + ct)))
+        // .collect(Collectors.toSet());
+
+        Set<Category> categories = Optional.ofNullable(categoryTypes)
+                .orElse(Collections.emptyList())
+                .stream()
                 .map(ct -> categoryRepository.findByCategoryType(ct)
                         .orElseThrow(() -> new EntityNotFoundException("Category not found: " + ct)))
                 .collect(Collectors.toSet());

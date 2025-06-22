@@ -44,4 +44,10 @@ public class Task {
         category.getTasks().add(this);
     }
 
+    @Column(name = "overDue")
+    public boolean isoverDue() {
+        LocalDate today = LocalDate.now();
+        return (dueDate.isBefore(today));
+    }
+
 }

@@ -18,7 +18,7 @@ public class Category {
     @Column(nullable = false, name = "categoryID")
     private Long categoryID;
 
-    @Column(nullable = false, name = "categoryType", unique = true, length = 50)
+    @Column(nullable = true, name = "categoryType", unique = true, length = 50)
     private String categoryType;
 
     @ManyToMany(mappedBy = "categories", fetch = FetchType.EAGER)
