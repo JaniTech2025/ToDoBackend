@@ -18,5 +18,5 @@ CREATE TABLE IF NOT EXISTS task_category (
     categoryID BIGINT NOT NULL,
     PRIMARY KEY (taskID, categoryID),
     FOREIGN KEY (categoryID) REFERENCES category(categoryID) ON DELETE CASCADE ,
-    FOREIGN KEY (taskID) REFERENCES Task(id) ON DELETE CASCADE
+    FOREIGN KEY (taskID) REFERENCES task(id) ON DELETE CASCADE
 );
